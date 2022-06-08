@@ -10,7 +10,7 @@ public class CustomerThread implements Runnable {
 	
 	@Override
 	public void run() {
-		System.out.printf("고객이 %d 일을 맡겼습니다. 일을 마칠 때까지 기다립니다.\n",
+		System.out.printf("고객이 %s 일을 맡겼습니다. 일을 마칠 때까지 기다립니다.\n",
 				work);
 		
 		synchronized (this) {
@@ -23,6 +23,10 @@ public class CustomerThread implements Runnable {
 		
 		System.out.printf("고객이 수리가 완료된 스마트폰을 돌려 받습니다..\n");
 		
+	}
+	
+	public String getWork() {
+		return work;
 	}
 	
 }

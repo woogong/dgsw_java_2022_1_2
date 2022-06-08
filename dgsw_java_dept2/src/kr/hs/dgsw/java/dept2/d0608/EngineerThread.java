@@ -15,15 +15,19 @@ public class EngineerThread implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			String work = serviceCenter.getWork();
+			CustomerThread work = serviceCenter.getWork();
 			
 			if (work != null) {
-				System.out.printf("%d 스레드 작업 시작 : %s\n",id, work);
+				System.out.printf("%d 스레드 작업 시작 : %s\n",id, work.getWork());
 				
 				try {
 					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+				}
+				
+				synchronized (work) {
+					work.notify();
 				}
 				
 				System.out.printf("%d 스레드 작업 종료\n", id);

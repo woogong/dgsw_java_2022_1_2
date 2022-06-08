@@ -7,7 +7,7 @@ public class ServiceCenter {
 	
 	public static final int COUNT_ENGINEERS = 1;
 	
-	private final Queue<String> workQueue = new LinkedList<String>();
+	private final Queue<CustomerThread> workQueue = new LinkedList<CustomerThread>();
 	
 	public void prepareEngineers() {
 		for (int i = 0 ; i < COUNT_ENGINEERS ; i++) {
@@ -16,15 +16,15 @@ public class ServiceCenter {
 		}
 	}
 	
-	public void acceptRequirement(String problem) {
-		workQueue.add(problem);
+	public void acceptRequirement(CustomerThread customer) {
+		workQueue.add(customer);
 		
 		synchronized (this) {
 			this.notify();
 		}
 	}
 	
-	public String getWork() {
+	public CustomerThread getWork() {
 		return workQueue.poll();
 	}
 	
@@ -35,6 +35,14 @@ public class ServiceCenter {
 		Thread.sleep(1000);
 		CustomerThread customer1 = new CustomerThread("충전이 안됩니다.");
 		new Thread(customer1).start();
+		
+		serviceCenter.acceptRequirement(customer1);
+		
+		Thread.sleep(500);
+		CustomerThread customer2 = new CustomerThread("액정이 깨졌어요.");
+		new Thread(customer2).start();
+		
+		serviceCenter.acceptRequirement(customer2);
 		
 		
 		
